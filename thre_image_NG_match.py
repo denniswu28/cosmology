@@ -15,7 +15,7 @@ import treecorr
 import utilities as util
 
 fr = ['Y106','J129','H158','F184']
-mag_threshold = 24
+mag_threshold = 21
 dec_min = -42
 dec_max = -38
 ra_min = 51
@@ -33,8 +33,11 @@ dc2_truth = dc2_truth[dc2_truth['x']>0] # select valid
 dc2_truth = dc2_truth[dc2_truth['gal_star'] == 0]
 dc2_truth = dc2_truth[np.logical_and(np.logical_and(dc2_truth['ra'] < ra_max, dc2_truth['ra'] > ra_min),np.logical_and(dc2_truth['dec'] < dec_max, dc2_truth['dec'] > dec_min))]
 
+# Match both catalogs
+dc2_det_match, dc2_truth_match = util.get_match(dc2_det, dc2_truth)
+
 # Select objects based on threshold
-dc2_truth_thre = dc2_truth[dc2_truth['mag_'+fr[2]] < mag_threshold]
+dc2_truth_thre = dc2_truth_match[dc2_truth_match['mag_'+fr[2]] < mag_threshold]
 
 # Read in shear data
 dc2_truth_shear = fio.FITS('/hpc/group/cosmology/phy-lsst/public/dc2_sim_output/truth/dc2_truth_gal.fits')[-1].read()
@@ -68,11 +71,11 @@ del(dc2_det)
 del(dc2_truth_thre)
 
 # Read the random catalog to arrays
-with open('data/ra_rand_gal_'+ str(mag_threshold) +'.csv', newline='') as rafile:
+with open('data/ra_rand_match_gal_'+ str(mag_threshold) +'.csv', newline='') as rafile:
     ra_rand = np.float_(list(csv.reader(rafile, delimiter=',')))
 ra_rand = ra_rand[0]
 
-with open('data/dec_rand_gal_'+ str(mag_threshold) +'.csv', newline='') as decfile:
+with open('data/dec_rand_match_gal_'+ str(mag_threshold) +'.csv', newline='') as decfile:
     dec_rand = np.float_(list(csv.reader(decfile, delimiter=',')))
 dec_rand = dec_rand[0]
 
@@ -91,7 +94,7 @@ ng_rand = treecorr.NGCorrelation(min_sep=0.6, max_sep=60, nbins=20, sep_units='a
 ng.process(cat_thre, cat)
 ng_rand.process(cat_rand, cat)
 ng.calculateXi(rg = ng_rand)
-ng.write("data/ng_corr_"+ str(mag_threshold) +".fits")
+ng.write("data/ng_corr_matched_"+ str(mag_threshold) +".fits")
 
 # plot the xi functions
 r = np.exp(ng.meanlogr)
@@ -112,28 +115,6 @@ plt.title("2pt correlation of galaxy shear in CosmoDC2")
 # Save both functions in a pdf file
 plt.savefig('pdf/corr_func_threshold_NG.pdf')
 plt.clf()
-
-
-# plot the xi functions
-r = np.exp(ng_rand.meanlogr)
-xi = ng_rand.xi
-sig = np.sqrt(ng_rand.varxi)
-
-plt.errorbar(r, xi, yerr=sig, linestyle="",marker="*", color='blue', label = r'$\xi_(\theta)$')
-
-#plt.xscale('log')
-#plt.yscale('log')
-#plt.xlim([0.01,250])
-
-plt.xlabel(r'$\theta$ (arcmin)')
-plt.ylabel(r'$\xi$')
-plt.legend()
-plt.title("2-point count-shear correlation")
-
-# Save both functions in a pdf file
-plt.savefig('corr_func_threshold_rand.pdf')
-plt.clf()
-
 
 
 
