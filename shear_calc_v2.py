@@ -12,7 +12,6 @@ import galsim
 import utilities as util
 
 fr = ['Y106','J129','H158','F184']
-mag_threshold = 20
 dec_min = -42
 dec_max = -38
 ra_min = 51

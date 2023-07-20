@@ -61,3 +61,17 @@ def read_truth_catalog(glob_query):
             print('-----fail'+f)
             pass
     return truth
+
+# # calculate threshold
+
+# threshold = 0.85
+# mag_threshold = np.zeros(4)
+# # Plot the histogram
+# for i in range(4):
+# 	n1, bins1, patches1 = plt.hist(rtd['mag_'+fr[i]], bins=np.linspace(10,35,1300), histtype='step', label='All Input')
+# 	n2, bins2, patches2 = plt.hist(rd['mag_auto_'+fr[i]], bins=np.linspace(10,35,1300), histtype='step', label='Detected')
+# 	for j in range(n1.size):
+# 		if(n2[j] > n1[j]*threshold and n2[j] > 1000):
+# 			mag_threshold[i] = bins1[j]
+# 	print('The threshold at ' + fr[i] + ' is ', mag_threshold[i])
+# 	plt.clf()
