@@ -16,8 +16,10 @@ gg_file_path = '/hpc/group/cosmology/denniswu/data/gg_corr_all.fits'
 ng_file_path = '/hpc/group/cosmology/denniswu/data/ng_corr_24.fits'
 ng_rand_file_path = '/hpc/group/cosmology/denniswu/data/ng_rand_24.fits'
 nn_file_path = '/hpc/group/cosmology/denniswu/data/nn_corr_24.fits'
+g_cov_file_path = ''
+ng_cov_file_path = ''
 
-mag_threshold = 21
+mag_threshold = 24
 dec_min = -42
 dec_max = -38
 ra_min = 51
@@ -75,7 +77,6 @@ nz_lens.area = 20
 kernels  = [nz_source, nz_lens]
 
 
-
 ''' Set up the 2pt class '''
 dtype1=[twopoint.Types.galaxy_shear_plus_real,twopoint.Types.galaxy_shear_minus_real,twopoint.Types.galaxy_position_real,twopoint.Types.galaxy_position_real,twopoint.Types.galaxy_position_real]
 dtype2=[twopoint.Types.galaxy_shear_plus_real,twopoint.Types.galaxy_shear_minus_real,twopoint.Types.galaxy_shear_plus_real,twopoint.Types.galaxy_position_real,twopoint.Types.galaxy_position_real]
@@ -101,6 +102,11 @@ def read_treecorr(file_path, corr_type):
         data.read(file_path, file_type="FITS")
     return data
 
+def get_cov_lengths(fits):
+    # Calculate length of covariance blocks. Exception for gammat, which reads a file that stores which bin combinations have been rejected in the covariance calcultion.
+    # Make cov lengths
+    return
+    
 exts = []
 
 for i,name in enumerate(TWO_POINT_NAMES):
@@ -189,9 +195,6 @@ exts[4].weight        = nn_data.weight
 # exts[4].rd_npairs     = np.zeros(length)
 # exts[4].rd_weight     = np.zeros(length)
 
-for s in exts:
-    print(s.value)
-
 
 ''' Write file without covariance (all data vectors) '''
 fits = twopoint.TwoPointFile(exts, kernels, None, None)
@@ -202,17 +205,12 @@ print(fits.spectra[3]) #[<Spectrum: xip>, <Spectrum: xim>, <Spectrum: gammat>, <
 print(fits.spectra[-1].bin1)
 print(fits.spectra)
 
-# if self.covmat is not None:
-#     #self.strip_missing_gglensing(fits)
-#     length=self.get_cov_lengths(fits)
+'''Writes the covariance info into a covariance object and saves to new fits files.'''
+length=get_cov_lengths(fits)
 
-# Writes the covariance info into a covariance object and saves to 2point fits file.
-
-# if self.covmat is not None:
-#     fits.covmat_info=twopoint.CovarianceMatrixInfo('COVMAT',TWO_POINT_NAMES,length,self.covmat[0])
-# fits.to_fits(self.output_path("2pt_g"),clobber=True)
-# if self.covmat is not None:
-#     fits.covmat_info=twopoint.CovarianceMatrixInfo('COVMAT',TWO_POINT_NAMES,length,self.covmat[1])
-# fits.to_fits(self.output_path("2pt_ng"),clobber=True)
+fits.covmat_info=twopoint.CovarianceMatrixInfo('COVMAT',TWO_POINT_NAMES,length,gg_data.cov)
+fits.to_fits(g_cov_file_path,clobber=True)
+fits.covmat_info=twopoint.CovarianceMatrixInfo('COVMAT',TWO_POINT_NAMES,length,ng_data.cov)
+fits.to_fits(ng_cov_file_path,clobber=True)
 
 

@@ -33,13 +33,15 @@ def read_det_catalog(glob_query):
     for i,f in enumerate(np.sort(glob.glob(glob_query))):
         try:
             tmp = fio.FITS(f)[-1].read(columns=['mag_auto_J129','mag_auto_F184','mag_auto_H158','mag_auto_Y106', 'number', 'alphawin_j2000', 'deltawin_j2000','flux_auto','fluxerr_auto','flags'])
+            # tmp = fio.FITS(f)[-1].read()
             if det is None:
+                print(tmp.dtype)
                 det = np.zeros(100000000,dtype=tmp.dtype)
             for col in det.dtype.names:
                 det[col][start:start+len(tmp)] = tmp[col]
             start+=len(tmp)
         except:
-            print('-----fail'+f)
+            # print('-----fail'+f)
             pass
     return det
 
@@ -51,16 +53,22 @@ def read_truth_catalog(glob_query):
         # print(i)
         try:
             tmp = fio.FITS(f)[-1].read(columns=['ra','dec', 'mag_J129','mag_F184','mag_H158','mag_Y106', 'ind', 'gal_star','x'])
+            # tmp = fio.FITS(f)[-1].read()
             if truth is None:
-                print('test')
+                print(tmp.dtype)
                 truth = np.zeros(100000000,dtype=tmp.dtype)
             for col in truth.dtype.names:
                 truth[col][start:start+len(tmp)] = tmp[col]
             start+=len(tmp)
         except:
-            print('-----fail'+f)
+            # print('-----fail'+f)
             pass
     return truth
+
+# find redshift distribution for dc2
+def nz_dist(file_path, ind):
+    dc2_truth_gal = fio.FITS(file_path)[-1].read() # read in truth data for galaxy
+    return dc2_truth_gal[ind]['z']
 
 # # calculate threshold
 

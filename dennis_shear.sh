@@ -1,9 +1,9 @@
 #!/bin/bash -l                     
 #SBATCH -N 1
-#SBATCH -n 6
-#SBATCH -t 1:30:00
+#SBATCH -n 1
+#SBATCH -t 1:00:00
 #SBATCH --account=cosmology
-#SBATCH --error=err/write_fits.err 
+#SBATCH --error=err/get_n_nz.err 
 #SBATCH --mem=200G
 #SBATCH -p cosmology
 #SBATCH --mail-type=all
@@ -20,5 +20,5 @@ export I_MPI_SHM_EAGER_THRESHOLD=4096
 export SLURM_CPU_BIND=none
 export SLURM_WHOLE=1
 
-python /hpc/group/cosmology/denniswu/write_fits.py
+python /hpc/group/cosmology/denniswu/get_n_nz.py
 
