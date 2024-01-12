@@ -1,0 +1,10 @@
+#parameter lerr68 data_set
+cosmological_parameters--omega_m  0.19126962431435818  /hpc/group/cosmology/denniswu/cosmosis_files/output/CosmoDC2/output_gw.txt
+cosmological_parameters--a_s  5.089620431809618e-10  /hpc/group/cosmology/denniswu/cosmosis_files/output/CosmoDC2/output_gw.txt
+cosmological_parameters--h0  0.5745144185903965  /hpc/group/cosmology/denniswu/cosmosis_files/output/CosmoDC2/output_gw.txt
+cosmological_parameters--omega_b  0.042116996541737846  /hpc/group/cosmology/denniswu/cosmosis_files/output/CosmoDC2/output_gw.txt
+cosmological_parameters--n_s  0.9179351511995852  /hpc/group/cosmology/denniswu/cosmosis_files/output/CosmoDC2/output_gw.txt
+prior  nan  /hpc/group/cosmology/denniswu/cosmosis_files/output/CosmoDC2/output_gw.txt
+like  241.6868019062638  /hpc/group/cosmology/denniswu/cosmosis_files/output/CosmoDC2/output_gw.txt
+post  266.9790988825825  /hpc/group/cosmology/denniswu/cosmosis_files/output/CosmoDC2/output_gw.txt
+weight  0.0045191522287288954  /hpc/group/cosmology/denniswu/cosmosis_files/output/CosmoDC2/output_gw.txt

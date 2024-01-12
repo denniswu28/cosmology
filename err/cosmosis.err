@@ -1,0 +1,13 @@
+ERROR: Unable to locate a modulefile for 'GCC/9.3.0'
+FFTW 3.3.9-rhel8-intel
+MPICH 3.2.1
+GSL 2.6
+/var/spool/slurmd/job396429/slurm_script: line 14: /hpc/group/cosmology/cosmosis-configure: No such file or directory
+/hpc/group/cosmology/cosmosis-standard-library/boltzmann/camb/camb_interface.py:355: UserWarning: Parameter massless_nu is being ignored. Set nnu, the effective number of relativistic species in the early Universe.
+  warnings.warn("Parameter massless_nu is being ignored. Set nnu, the effective number of relativistic species in the early Universe.")
+/hpc/group/cosmology/cosmosis-standard-library/boltzmann/camb/camb_interface.py:445: UserWarning: Parameter massive_nu inconsistent: input was 3 but value is now 1.
+  warnings.warn(f"Parameter {cosmosis_name} inconsistent: input was {input_value} but value is now {CAMB_value}.")
+/hpc/group/cosmology/cosmosis-standard-library/boltzmann/camb/camb_interface.py:445: UserWarning: Parameter massless_nu inconsistent: input was 0.046 but value is now 2.0293333333333337.
+  warnings.warn(f"Parameter {cosmosis_name} inconsistent: input was {input_value} but value is now {CAMB_value}.")
+/hpc/group/cosmology/cosmosis-standard-library/shear/cl_to_xi_fullsky/cl_to_xi.py:36: RuntimeWarning: divide by zero encountered in log
+  spec = np.exp(self.interp_func(np.log(angle)))

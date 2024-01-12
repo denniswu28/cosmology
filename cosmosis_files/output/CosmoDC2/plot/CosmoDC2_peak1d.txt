@@ -1,0 +1,10 @@
+#parameter peak1d data_set
+cosmological_parameters--omega_m  0.266495956318972  /hpc/group/cosmology/denniswu/cosmosis_files/output/CosmoDC2/output_gw.txt
+cosmological_parameters--a_s  8.904177247979822e-10  /hpc/group/cosmology/denniswu/cosmosis_files/output/CosmoDC2/output_gw.txt
+cosmological_parameters--h0  0.6134228023051793  /hpc/group/cosmology/denniswu/cosmosis_files/output/CosmoDC2/output_gw.txt
+cosmological_parameters--omega_b  0.058046688685736834  /hpc/group/cosmology/denniswu/cosmosis_files/output/CosmoDC2/output_gw.txt
+cosmological_parameters--n_s  0.9871906211587186  /hpc/group/cosmology/denniswu/cosmosis_files/output/CosmoDC2/output_gw.txt
+prior  nan  /hpc/group/cosmology/denniswu/cosmosis_files/output/CosmoDC2/output_gw.txt
+like  241.6868019062638  /hpc/group/cosmology/denniswu/cosmosis_files/output/CosmoDC2/output_gw.txt
+post  266.9790988825825  /hpc/group/cosmology/denniswu/cosmosis_files/output/CosmoDC2/output_gw.txt
+weight  0.007404072286183135  /hpc/group/cosmology/denniswu/cosmosis_files/output/CosmoDC2/output_gw.txt

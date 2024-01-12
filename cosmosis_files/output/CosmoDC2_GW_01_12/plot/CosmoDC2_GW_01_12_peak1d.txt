@@ -1,0 +1,9 @@
+#parameter peak1d data_set
+cosmological_parameters--omega_m  0.7836167977645455  denniswu/cosmosis_files/output/CosmoDC2_GW_01_12/output.txt
+cosmological_parameters--a_s  5.088218212219894e-10  denniswu/cosmosis_files/output/CosmoDC2_GW_01_12/output.txt
+cosmological_parameters--h0  0.5550036067309176  denniswu/cosmosis_files/output/CosmoDC2_GW_01_12/output.txt
+cosmological_parameters--sigma_8  0.545349813113963  denniswu/cosmosis_files/output/CosmoDC2_GW_01_12/output.txt
+prior  nan  denniswu/cosmosis_files/output/CosmoDC2_GW_01_12/output.txt
+like  -809.1682170093158  denniswu/cosmosis_files/output/CosmoDC2_GW_01_12/output.txt
+post  -788.7042337702994  denniswu/cosmosis_files/output/CosmoDC2_GW_01_12/output.txt
+weight  0.004567420078519168  denniswu/cosmosis_files/output/CosmoDC2_GW_01_12/output.txt

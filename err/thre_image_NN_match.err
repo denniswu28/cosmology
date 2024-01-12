@@ -1,0 +1,5 @@
+GCC 7.4.0
+FFTW 3.3.7
+GSL 2.4
+Anaconda3 5.1.0
+slurmstepd: error: *** JOB 24846742 ON dcc-cosmology-05 CANCELLED AT 2023-02-07T12:17:00 ***
