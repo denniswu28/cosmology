@@ -1,8 +1,8 @@
-data/*
-pdf/*
-examples/*
-phy555/*
-trash/*
+data/**
+pdf/**
+examples/**
+phy555/**
+trash/**
 slurm-*.out
 
 
