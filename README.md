@@ -1,1 +1,1 @@
-# cosmology
+# Cosmology project
