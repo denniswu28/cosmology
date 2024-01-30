@@ -40,20 +40,22 @@ for i in range(20,26):
 
     dc2_truth_shear = fio.FITS('/hpc/group/cosmology/phy-lsst/public/dc2_sim_output/truth/dc2_truth_gal.fits')[-1].read()
     dc2_thre_shear = np.copy(dc2_truth_shear[dc2_truth_thre['ind']])
-    dc2_truth_shear = dc2_truth_shear[np.logical_and(np.logical_and(dc2_truth_shear['ra'] < np.deg2rad(ra_max), dc2_truth_shear['ra'] > np.deg2rad(ra_min)),np.logical_and(dc2_truth_shear['dec'] < np.deg2rad(dec_max), dc2_truth_shear['dec'] > np.deg2rad(dec_min)))]
+    # dc2_truth_shear = dc2_truth_shear[np.logical_and(np.logical_and(dc2_truth_shear['ra'] < np.deg2rad(ra_max), dc2_truth_shear['ra'] > np.deg2rad(ra_min)),np.logical_and(dc2_truth_shear['dec'] < np.deg2rad(dec_max), dc2_truth_shear['dec'] > np.deg2rad(dec_min)))]
+    
+    dc2_truth_shear_limited = np.copy(dc2_truth_shear[dc2_truth['ind']])
     dc2_thre_shear = dc2_thre_shear[np.logical_and(np.logical_and(dc2_thre_shear['ra'] < np.deg2rad(ra_max), dc2_thre_shear['ra'] > np.deg2rad(ra_min)),np.logical_and(dc2_thre_shear['dec'] < np.deg2rad(dec_max), dc2_thre_shear['dec'] > np.deg2rad(dec_min)))]
 
     if i == 20:
-        s1 = np.zeros(len(dc2_truth_shear))
-        s2 = np.zeros(len(dc2_truth_shear))
-        q = np.median(dc2_truth_shear['q'],axis=1)
-        beta = np.median(dc2_truth_shear['pa'],axis=1)
-        for i in range(len(dc2_truth_shear)):
+        s1 = np.zeros(len(dc2_truth_shear_limited))
+        s2 = np.zeros(len(dc2_truth_shear_limited))
+        q = np.median(dc2_truth_shear_limited['q'],axis=1)
+        beta = np.median(dc2_truth_shear_limited['pa'],axis=1)
+        for i in range(len(dc2_truth_shear_limited)):
             try:
                 s = galsim.Shear(q=1./q[i], beta=(90.+beta[i])*galsim.degrees)
                 s = galsim._Shear(complex(s.g1,-s.g2))
-                g1 = dc2_truth_shear['g1'][i]/(1. - dc2_truth_shear['k'][i])
-                g2 = -dc2_truth_shear['g2'][i]/(1. - dc2_truth_shear['k'][i])
+                g1 = dc2_truth_shear_limited['g1'][i]/(1. - dc2_truth_shear_limited['k'][i])
+                g2 = -dc2_truth_shear_limited['g2'][i]/(1. - dc2_truth_shear_limited['k'][i])
                 g = galsim.Shear(g1=g1,g2=g2)
                 s = g+s
                 s1[i]=s.g1

@@ -22,7 +22,7 @@ def get_cov(filename):
 	return cov_g, cov_ng, ndata
 
 
-covfile = '/hpc/group/cosmology/denniswu/covmat/cov_dc2'
+covfile = '/hpc/group/cosmology/denniswu/covmat/cov_dc2_21'
 
 
 '''Plot the covariance matrix'''

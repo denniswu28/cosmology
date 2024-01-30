@@ -64,7 +64,7 @@ for i in range(20,26):
 	mag_threshold = i
 
 	# Select objects based on threshold
-	dc2_truth_thre = dc2_truth[dc2_truth['mag_'+fr[2]] < mag_threshold]
+	dc2_truth_thre = dc2_truth_match[dc2_truth_match['mag_'+fr[2]] < mag_threshold]
 
 	# Extract position and shear data
 	ra = dc2_truth_shear['ra']

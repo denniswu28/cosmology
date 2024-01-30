@@ -13,15 +13,15 @@ NOFZ_NAMES = ['nz_source', 'nz_lens']
 COV_NAME = 'COVMAT'
 fr = ['Y106','J129','H158','F184']
 
-full_file_path = '/hpc/group/cosmology/denniswu/data/CosmoDC2_2pt.fits'
 gg_file_path = '/hpc/group/cosmology/denniswu/data/gg_corr_all.fits'
-ng_file_path = '/hpc/group/cosmology/denniswu/data/ng_corr_24.fits'
-ng_rand_file_path = '/hpc/group/cosmology/denniswu/data/ng_rand_24.fits'
-nn_file_path = '/hpc/group/cosmology/denniswu/data/nn_corr_24.fits'
-g_cov_file_path = '/hpc/group/cosmology/denniswu/covmat/cov_dc2'
-full_cov_file_path = '/hpc/group/cosmology/denniswu/cosmosis_files/data/2pt_all_CosmoDC2.fits'
+ng_file_path = '/hpc/group/cosmology/denniswu/data/ng_corr_21.fits'
+ng_rand_file_path = '/hpc/group/cosmology/denniswu/data/ng_rand_21.fits'
+nn_file_path = '/hpc/group/cosmology/denniswu/data/nn_corr_21.fits'
+g_cov_file_path = '/hpc/group/cosmology/denniswu/covmat/cov_dc2_21'
+full_file_path = '/hpc/group/cosmology/denniswu/data/2pt_CosmoDC2_21.fits'
+full_cov_file_path = '/hpc/group/cosmology/denniswu/cosmosis_files/data/2pt_all_CosmoDC2_21.fits'
 
-mag_threshold = 24
+mag_threshold = 21
 dec_min = -42
 dec_max = -38
 ra_min = 51
@@ -60,7 +60,7 @@ dc2_truth_thre = dc2_truth_match[dc2_truth_match['mag_'+fr[2]] < mag_threshold]
 
 # Output the source, lens number
 print("Matched source number: ",dc2_truth_match['ra'].size)
-print("Matched lens number w/ m_H<24: ",dc2_truth_thre['ra'].size)
+print("Matched lens number w/ m_H<" + str(mag_threshold) + " : ",dc2_truth_thre['ra'].size)
 
 # Fetch nz dist from truth, create hist
 ddir = '/hpc/group/cosmology/phy-lsst/public/dc2_sim_output/truth/dc2_truth_gal.fits'

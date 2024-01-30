@@ -1,0 +1,2 @@
+#logz logz_sigma data_set
+-819.5625119427447  0.4304405471793053  denniswu/cosmosis_files/output/CosmoDC2_GW_01_15/output.txt

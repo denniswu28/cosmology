@@ -1,8 +1,0 @@
-GCC 7.4.0
-FFTW 3.3.7
-GSL 2.4
-Anaconda3 5.1.0
-/hpc/group/cosmology/denniswu/shear_calc.py:53: RuntimeWarning: divide by zero encountered in true_divide
-  s = galsim.Shear(q=1./q[i], beta=(90.+beta[i])*galsim.degrees)
-/hpc/group/cosmology/denniswu/shear_calc.py:80: RuntimeWarning: divide by zero encountered in true_divide
-  s_thre = galsim.Shear(q=1./q_thre[i], beta=(90.+beta_thre[i])*galsim.degrees)

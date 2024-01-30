@@ -25,7 +25,7 @@ dec_min = -42
 dec_max = -38
 ra_min = 51
 ra_max = 56
-mag_threshold = 24
+mag_threshold = 21
 
 ''' Write a dummy lens and source nofz to twopoint fits file. '''
 # Read in and cut dectection objects
@@ -47,8 +47,8 @@ dc2_det_match, dc2_truth_match = util.get_match(dc2_det, dc2_truth)
 dc2_truth_thre = dc2_truth_match[dc2_truth_match['mag_'+fr[2]] < mag_threshold]
 
 # Output the source, lens number
-print("Matched source number: ",dc2_truth_match['ra'].size)
-print("Matched lens number w/ m_H<24: ",dc2_truth_thre['ra'].size)
+print("Matched source number: ", dc2_truth_match['ra'].size)
+print("Matched lens number w/ m_H<" + str(mag_threshold) + " : ", dc2_truth_thre['ra'].size)
 
 # Fetch nz dist from truth, create hist
 ddir = '/hpc/group/cosmology/phy-lsst/public/dc2_sim_output/truth/dc2_truth_gal.fits'
@@ -73,6 +73,6 @@ bins_source  = bins_source[0:-1]
 
 # Format output file for CosmoCov
 df = pd.DataFrame(np.transpose(np.array([bins_source, hist_source])), columns = ['z_min','n'])
-df.to_csv('data/dc2_source.nz', sep = ' ', header = False, index = False, float_format = '{:.6e}'.format)
+df.to_csv('data/dc2_source_' + str(mag_threshold) + '.nz', sep = ' ', header = False, index = False, float_format = '{:.6e}'.format)
 df = pd.DataFrame(np.transpose(np.array([bins_lens, hist_lens])), columns = ['z_min','n'])
-df.to_csv('data/dc2_lens.nz', sep = ' ', header = False, index = False, float_format = '{:.6e}'.format)
+df.to_csv('data/dc2_lens_' + str(mag_threshold) + '.nz', sep = ' ', header = False, index = False, float_format = '{:.6e}'.format)

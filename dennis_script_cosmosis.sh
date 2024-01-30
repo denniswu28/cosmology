@@ -23,4 +23,4 @@ export SLURM_CPU_BIND=none
 export SLURM_WHOLE=1
 
 cosmosis /hpc/group/cosmology/denniswu/cosmosis_files/script/params.ini
-# cosmosis-postprocess -o denniswu/cosmosis_files/output/CosmoDC2_GW_01_12_test/plot -p CosmoDC2_GW_01_12 denniswu/cosmosis_files/output/CosmoDC2_GW_01_12_test/output.txt 
+# cosmosis-postprocess -o denniswu/cosmosis_files/output/CosmoDC2_GW_01_19/plot -p CosmoDC2_GW_01_19 denniswu/cosmosis_files/output/CosmoDC2_GW_01_19/output.txt 
