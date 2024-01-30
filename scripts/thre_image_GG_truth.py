@@ -37,6 +37,8 @@ dec = dc2_truth_shear_limited['dec']
 s1 = np.zeros(len(dc2_truth_shear_limited))
 s2 = np.zeros(len(dc2_truth_shear_limited))
 
+del(dc2_truth_shear_limited)
+
 with open('data/s1.csv') as fs1:
 	reader = csv.reader(fs1, delimiter=',')
 	for row in reader:
@@ -56,6 +58,7 @@ for i in range(20,26):
 
 	# Read in thresholded shear data
 	dc2_thre_shear = np.copy(dc2_truth_shear[dc2_truth_thre['ind']])
+	del(dc2_truth_thre)
 	# dc2_thre_shear = dc2_thre_shear[np.logical_and(np.logical_and(dc2_thre_shear['ra'] < np.deg2rad(ra_max), dc2_thre_shear['ra'] > np.deg2rad(ra_min)),np.logical_and(dc2_thre_shear['dec'] < np.deg2rad(dec_max), dc2_thre_shear['dec'] > np.deg2rad(dec_min)))]
 	
 	# Extract thresholded position data

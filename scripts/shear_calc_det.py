@@ -49,8 +49,8 @@ dc2_det_shear = np.copy(dc2_truth_shear[dc2_truth_match['ind']])
 for i in range(20,26):
     mag_threshold = i
 
-    dc2_det_thre = np.copy(dc2_det_match[dc2_det_match['mag_'+fr[2]] < mag_threshold])
-    dc2_truth_thre = np.copy(dc2_truth_match[dc2_det_match['mag_'+fr[2]] < mag_threshold])
+    dc2_det_thre = np.copy(dc2_det_match[dc2_det_match['mag_auto_'+fr[2]] < mag_threshold])
+    dc2_truth_thre = np.copy(dc2_truth_match[dc2_det_match['mag_auto_'+fr[2]] < mag_threshold])
 
     dc2_thre_shear = np.copy(dc2_truth_shear[dc2_truth_thre['ind']])
     # dc2_thre_shear = dc2_thre_shear[np.logical_and(np.logical_and(dc2_thre_shear['ra'] < np.deg2rad(ra_max), dc2_thre_shear['ra'] > np.deg2rad(ra_min)),np.logical_and(dc2_thre_shear['dec'] < np.deg2rad(dec_max), dc2_thre_shear['dec'] > np.deg2rad(dec_min)))]
@@ -73,12 +73,12 @@ for i in range(20,26):
             except:
                 pass
 
-        with open('data/s1_det_match.csv', 'x') as fs1:
+        with open('data/s1_det_match.csv', 'w') as fs1:
             writer = csv.writer(fs1)
             writer.writerow(s1)
         del(s1)
 
-        with open('data/s2_det_match.csv', 'x') as fs2:
+        with open('data/s2_det_match.csv', 'w') as fs2:
             writer = csv.writer(fs2)
             writer.writerow(s2)
         del(s2)	
@@ -100,13 +100,13 @@ for i in range(20,26):
         except:
             pass
 
-    with open('data/s1_det_match_thre_'+ str(mag_threshold) +'.csv', 'x') as fs1_thre:
+    with open('data/s1_det_match_thre_'+ str(mag_threshold) +'.csv', 'w') as fs1_thre:
         writer = csv.writer(fs1_thre)
         writer.writerow(s1_thre)
         
     del(s1_thre)
 
-    with open('data/s2_det_match_thre_'+ str(mag_threshold) +'.csv', 'x') as fs2_thre:
+    with open('data/s2_det_match_thre_'+ str(mag_threshold) +'.csv', 'w') as fs2_thre:
         writer = csv.writer(fs2_thre)
         writer.writerow(s2_thre)
         
