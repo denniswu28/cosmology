@@ -4,7 +4,7 @@
 #SBATCH -t 6:00:00
 #SBATCH --account=cosmology
 #SBATCH --error=err/shear_calc.err 
-#SBATCH --mem=200G
+#SBATCH --mem=20G
 #SBATCH -p cosmology
 #SBATCH --mail-type=all
 #SBATCH --mail-user=tianrui.wu@duke.edu
@@ -23,6 +23,6 @@ export SLURM_WHOLE=1
 # python /hpc/group/cosmology/denniswu/cosmosis_files/shear_plotting/plot_21.py
 # python /hpc/group/cosmology/denniswu/scripts/get_n_nz.py
 # python /hpc/group/cosmology/denniswu/scripts/plot_covmat_default.py
-python /hpc/group/cosmology/denniswu/scripts/thre_image_GG_truth.py
+python /hpc/group/cosmology/denniswu/scripts/thre_image_GG_read.py
 # python /hpc/group/cosmology/denniswu/scripts/shear_calc.py
 # python /hpc/group/cosmology/denniswu/scripts/write_fits.py

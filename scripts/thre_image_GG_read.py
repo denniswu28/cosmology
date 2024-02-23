@@ -5,49 +5,52 @@ matplotlib.use ('agg')
 import matplotlib.pyplot as plt
 import treecorr
 
+det = "det_"
+
 gg = treecorr.GGCorrelation(min_sep=1, max_sep=100, nbins=20, sep_units='arcmin', var_method='jackknife')
-gg.read("data/gg_corr_all.fits", file_type="FITS")
+gg.read("data/gg_corr_" + det + "all.fits", file_type="FITS")
 
 gg_20 = treecorr.GGCorrelation(min_sep=1, max_sep=100, nbins=20, sep_units='arcmin', var_method='jackknife')
-gg_20.read("data/gg_corr_20.fits", file_type="FITS")
+gg_20.read("data/gg_corr_" + det + "20.fits", file_type="FITS")
 
 gg_21 = treecorr.GGCorrelation(min_sep=1, max_sep=100, nbins=20, sep_units='arcmin', var_method='jackknife')
-gg_21.read("data/gg_corr_21.fits", file_type="FITS")
+gg_21.read("data/gg_corr_" + det + "21.fits", file_type="FITS")
 
 gg_22 = treecorr.GGCorrelation(min_sep=1, max_sep=100, nbins=20, sep_units='arcmin', var_method='jackknife')
-gg_22.read("data/gg_corr_22.fits", file_type="FITS")
+gg_22.read("data/gg_corr_" + det + "22.fits", file_type="FITS")
 
 gg_23 = treecorr.GGCorrelation(min_sep=1, max_sep=100, nbins=20, sep_units='arcmin', var_method='jackknife')
-gg_23.read("data/gg_corr_23.fits", file_type="FITS")
+gg_23.read("data/gg_corr_" + det + "23.fits", file_type="FITS")
 
 gg_24 = treecorr.GGCorrelation(min_sep=1, max_sep=100, nbins=20, sep_units='arcmin', var_method='jackknife')
-gg_24.read("data/gg_corr_24.fits", file_type="FITS")
+gg_24.read("data/gg_corr_" + det + "24.fits", file_type="FITS")
 
 gg_25 = treecorr.GGCorrelation(min_sep=1, max_sep=100, nbins=20, sep_units='arcmin', var_method='jackknife')
-gg_25.read("data/gg_corr_25.fits", file_type="FITS")
+gg_25.read("data/gg_corr_" + det + "25.fits", file_type="FITS")
 
 gg_cross_20 = treecorr.GGCorrelation(min_sep=1, max_sep=100, nbins=20, sep_units='arcmin', var_method='jackknife')
-gg_cross_20.read("data/gg_cross_20.fits", file_type="FITS")
+gg_cross_20.read("data/gg_cross_" + det + "20.fits", file_type="FITS")
 
 gg_cross_21 = treecorr.GGCorrelation(min_sep=1, max_sep=100, nbins=20, sep_units='arcmin', var_method='jackknife')
-gg_cross_21.read("data/gg_cross_21.fits", file_type="FITS")
+gg_cross_21.read("data/gg_cross_" + det + "21.fits", file_type="FITS")
 
 gg_cross_22 = treecorr.GGCorrelation(min_sep=1, max_sep=100, nbins=20, sep_units='arcmin', var_method='jackknife')
-gg_cross_22.read("data/gg_cross_22.fits", file_type="FITS")
+gg_cross_22.read("data/gg_cross_" + det + "22.fits", file_type="FITS")
 
 gg_cross_23 = treecorr.GGCorrelation(min_sep=1, max_sep=100, nbins=20, sep_units='arcmin', var_method='jackknife')
-gg_cross_23.read("data/gg_cross_23.fits", file_type="FITS")
+gg_cross_23.read("data/gg_cross_" + det + "23.fits", file_type="FITS")
 
 gg_cross_24 = treecorr.GGCorrelation(min_sep=1, max_sep=100, nbins=20, sep_units='arcmin', var_method='jackknife')
-gg_cross_24.read("data/gg_cross_24.fits", file_type="FITS")
+gg_cross_24.read("data/gg_cross_" + det + "24.fits", file_type="FITS")
 
 gg_cross_25 = treecorr.GGCorrelation(min_sep=1, max_sep=100, nbins=20, sep_units='arcmin', var_method='jackknife')
-gg_cross_25.read("data/gg_cross_25.fits", file_type="FITS")
+gg_cross_25.read("data/gg_cross_" + det + "25.fits", file_type="FITS")
 
+print(gg.varxip)
 
 # Plot the xi functions
-plt.errorbar(np.exp(gg.meanlogr), gg.xip, yerr=gg.varxip, linestyle="",marker="*", color='black', label = r'Truth full $\xi_+ (\theta)$')
-plt.errorbar(np.exp(gg.meanlogr), gg.xim, yerr=gg.varxim, linestyle="",marker=".", color='black', label = r'Truth full $\xi_- (\theta)$')
+plt.errorbar(np.exp(gg.meanlogr), gg.xip, yerr=gg.varxip, linestyle="",marker="*", color='black', label = r'Detection full $\xi_+ (\theta)$')
+plt.errorbar(np.exp(gg.meanlogr), gg.xim, yerr=gg.varxim, linestyle="",marker=".", color='black', label = r'Detection full $\xi_- (\theta)$')
 plt.xscale('log')
 plt.yscale('log')
 plt.ylim(1e-7,1e-3)
@@ -173,7 +176,7 @@ plt.ylabel(r'$\xi$')
 plt.legend(loc = 'lower left')
 plt.title("2pt GG correlation")
 plt.title("2-point shear-shear correlation")
-plt.savefig('corr_func_threshold_gg_cross_22.pdf')
+plt.savefig('corr_func_threshold_GG_cross_22.pdf')
 plt.clf()
 
 plt.errorbar(np.exp(gg_cross_23.meanlogr), gg_cross_23.xip, yerr=gg_cross_23.varxip, linestyle="",marker="*", color='navy', label = r'Truth 23/full $\xi_+ (\theta)$')

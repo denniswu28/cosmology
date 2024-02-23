@@ -34,18 +34,13 @@ dc2_det = dc2_det[(dc2_det['alphawin_j2000']>ra_min)&(dc2_det['alphawin_j2000']<
 # Match both catalogs
 dc2_det_match, dc2_truth_match = util.get_match(dc2_det, dc2_truth)
 
-# Read in truth shear file
-dc2_truth_shear = fio.FITS('/hpc/group/cosmology/phy-lsst/public/dc2_sim_output/truth/dc2_truth_gal.fits')[-1].read() 
-# dc2_truth_shear_limited = np.copy(dc2_truth_shear[np.logical_and(np.logical_and(dc2_truth_shear['ra'] < np.deg2rad(ra_max), dc2_truth_shear['ra'] > np.deg2rad(ra_min)),np.logical_and(dc2_truth_shear['dec'] < np.deg2rad(dec_max), dc2_truth_shear['dec'] > np.deg2rad(dec_min)))])
-dc2_det_shear = np.copy(dc2_truth_shear[dc2_truth_match['ind']])
-
 # Extract position data
 ra = dc2_det_match['alphawin_j2000']
 dec = dc2_det_match['deltawin_j2000']
 
 # Extract shear data
-s1 = np.zeros(len(dc2_det_shear))
-s2 = np.zeros(len(dc2_det_shear))
+s1 = np.zeros(len(dc2_det_match))
+s2 = np.zeros(len(dc2_det_match))
 
 with open('data/s1_det_match.csv') as fs1:
 	reader = csv.reader(fs1, delimiter=',')
@@ -62,20 +57,16 @@ for i in range(20,26):
 	mag_threshold = i
 
 	# Select objects based on threshold
-	dc2_det_thre = np.copy(dc2_det_match[dc2_det_match['mag_'+fr[2]] < mag_threshold])
-	dc2_truth_thre = np.copy(dc2_truth_match[dc2_det_match['mag_'+fr[2]] < mag_threshold])
-    
-	# Read in thresholded shear data
-	dc2_thre_shear = np.copy(dc2_truth_shear[dc2_truth_thre['ind']])
-	# dc2_thre_shear = dc2_thre_shear[np.logical_and(np.logical_and(dc2_thre_shear['ra'] < np.deg2rad(ra_max), dc2_thre_shear['ra'] > np.deg2rad(ra_min)),np.logical_and(dc2_thre_shear['dec'] < np.deg2rad(dec_max), dc2_thre_shear['dec'] > np.deg2rad(dec_min)))]
+	dc2_det_thre = np.copy(dc2_det_match[dc2_det_match['mag_auto_'+fr[2]] < mag_threshold])
+	dc2_truth_thre = np.copy(dc2_truth_match[dc2_det_match['mag_auto_'+fr[2]] < mag_threshold])
 
 	# Extract thresholded position data
 	ra_thre = dc2_det_thre['alphawin_j2000']
 	dec_thre = dc2_det_thre['deltawin_j2000']
 
 	# Extract thresholded shear data
-	s1_thre = np.zeros(len(dc2_thre_shear))
-	s2_thre = np.zeros(len(dc2_thre_shear))
+	s1_thre = np.zeros(len(dc2_det_thre))
+	s2_thre = np.zeros(len(dc2_det_thre))
 
 	with open('data/s1_det_match_thre_'+ str(mag_threshold) +'.csv') as fst1:
 		reader = csv.reader(fst1, delimiter=',')
@@ -90,21 +81,21 @@ for i in range(20,26):
 
 	# Generate the treecorr catalogs
 	k = 10
-	cat = treecorr.Catalog(ra = ra, dec = dec, g1 = s1, g2 = s2, ra_units='radians', dec_units='radians', npatch = k)
-	cat_thre = treecorr.Catalog(ra = ra_thre, dec = dec_thre, g1 = s1_thre, g2 = s2_thre, ra_units='radians', dec_units='radians', patch_centers=cat.patch_centers)
+	cat = treecorr.Catalog(ra = ra, dec = dec, g1 = s1, g2 = s2, ra_units='degrees', dec_units='degrees', npatch = k)
+	cat_thre = treecorr.Catalog(ra = ra_thre, dec = dec_thre, g1 = s1_thre, g2 = s2_thre, ra_units='degrees', dec_units='degrees', patch_centers=cat.patch_centers)
 
 	# Construct the count-shear corr object
-	gg = treecorr.GGCorrelation(min_sep=1, max_sep=100, nbins=20, sep_units='arcmin', var_method='jackknife')
-	gg_thre = treecorr.GGCorrelation(min_sep=1, max_sep=100, nbins=20, sep_units='arcmin', var_method='jackknife')
-	gg_cross = treecorr.GGCorrelation(min_sep=1, max_sep=100, nbins=20, sep_units='arcmin', var_method='jackknife')
+	gg = treecorr.GGCorrelation(min_sep=1, max_sep=100, nbins=20, sep_units='arcmin', var_method='marked_bootstrap')
+	gg_thre = treecorr.GGCorrelation(min_sep=1, max_sep=100, nbins=20, sep_units='arcmin', var_method='marked_bootstrap')
+	gg_cross = treecorr.GGCorrelation(min_sep=1, max_sep=100, nbins=20, sep_units='arcmin', var_method='marked_bootstrap')
 
 	# Compute the shear-shear corr and compensate with rand background
 	gg.process(cat)
 	gg_thre.process(cat_thre)
 	gg_cross.process(cat_thre, cat)
-	gg.write("data/gg_corr_all.fits")
-	gg_thre.write("data/gg_corr_"+ str(mag_threshold) +".fits")
-	gg_cross.write("data/gg_cross_"+ str(mag_threshold) +".fits")
+	gg.write("data/gg_corr_det_all.fits")
+	gg_thre.write("data/gg_corr_det_"+ str(mag_threshold) +".fits")
+	gg_cross.write("data/gg_cross_det_"+ str(mag_threshold) +".fits")
 
 
 

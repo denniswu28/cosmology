@@ -45,6 +45,7 @@ dc2_det_match, dc2_truth_match = util.get_match(dc2_det, dc2_truth)
 
 # Single out the lens
 dc2_truth_thre = dc2_truth_match[dc2_truth_match['mag_'+fr[2]] < mag_threshold]
+# dc2_truth_thre = dc2_truth_match
 
 # Output the source, lens number
 print("Matched source number: ", dc2_truth_match['ra'].size)

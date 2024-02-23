@@ -1,0 +1,5 @@
+ERROR: Unable to locate a modulefile for 'GCC/9.3.0'
+FFTW 3.3.9-rhel8-intel
+MPICH 3.2.1
+GSL 2.6
+/var/spool/slurmd/job1487124/slurm_script: line 15: /hpc/group/cosmology/cosmosis-configure: No such file or directory

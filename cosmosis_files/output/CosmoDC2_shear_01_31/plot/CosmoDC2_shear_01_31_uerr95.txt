@@ -1,0 +1,11 @@
+#parameter uerr95 data_set
+cosmological_parameters--omega_m  0.513519164507757  denniswu/cosmosis_files/output/CosmoDC2_shear_01_31/output.txt
+cosmological_parameters--a_s  4.397533463097091e-09  denniswu/cosmosis_files/output/CosmoDC2_shear_01_31/output.txt
+cosmological_parameters--h0  0.8538159389534073  denniswu/cosmosis_files/output/CosmoDC2_shear_01_31/output.txt
+cosmological_parameters--omega_b  0.06993684768676758  denniswu/cosmosis_files/output/CosmoDC2_shear_01_31/output.txt
+cosmological_parameters--n_s  1.0682975941457897  denniswu/cosmosis_files/output/CosmoDC2_shear_01_31/output.txt
+cosmological_parameters--sigma_8  0.9224380978669788  denniswu/cosmosis_files/output/CosmoDC2_shear_01_31/output.txt
+prior  nan  denniswu/cosmosis_files/output/CosmoDC2_shear_01_31/output.txt
+like  242.97268587590034  denniswu/cosmosis_files/output/CosmoDC2_shear_01_31/output.txt
+post  268.26498285221896  denniswu/cosmosis_files/output/CosmoDC2_shear_01_31/output.txt
+weight  0.0083255187592491  denniswu/cosmosis_files/output/CosmoDC2_shear_01_31/output.txt

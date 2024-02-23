@@ -18,8 +18,8 @@ ng_file_path = '/hpc/group/cosmology/denniswu/data/ng_corr_21.fits'
 ng_rand_file_path = '/hpc/group/cosmology/denniswu/data/ng_rand_21.fits'
 nn_file_path = '/hpc/group/cosmology/denniswu/data/nn_corr_21.fits'
 g_cov_file_path = '/hpc/group/cosmology/denniswu/covmat/cov_dc2_21'
-full_file_path = '/hpc/group/cosmology/denniswu/data/2pt_CosmoDC2_21.fits'
-full_cov_file_path = '/hpc/group/cosmology/denniswu/cosmosis_files/data/2pt_all_CosmoDC2_21.fits'
+full_file_path = '/hpc/group/cosmology/denniswu/data/2pt_CosmoDC2_21_det_shear.fits'
+full_cov_file_path = '/hpc/group/cosmology/denniswu/cosmosis_files/data/2pt_all_CosmoDC2_21_det_shear.fits'
 
 mag_threshold = 21
 dec_min = -42

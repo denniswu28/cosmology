@@ -44,16 +44,17 @@ dc2_det_match, dc2_truth_match = util.get_match(dc2_det, dc2_truth)
 dc2_truth_shear = fio.FITS('/hpc/group/cosmology/phy-lsst/public/dc2_sim_output/truth/dc2_truth_gal.fits')[-1].read()
 # dc2_truth_shear_limited = np.copy(dc2_truth_shear[np.logical_and(np.logical_and(dc2_truth_shear['ra'] < np.deg2rad(ra_max), dc2_truth_shear['ra'] > np.deg2rad(ra_min)),np.logical_and(dc2_truth_shear['dec'] < np.deg2rad(dec_max), dc2_truth_shear['dec'] > np.deg2rad(dec_min)))])
 dc2_det_shear = np.copy(dc2_truth_shear[dc2_truth_match['ind']])
+# dc2_det_shear = dc2_det_shear[np.logical_and(np.logical_and(dc2_det_shear['ra'] < np.deg2rad(ra_max), dc2_det_shear['ra'] > np.deg2rad(ra_min)),np.logical_and(dc2_det_shear['dec'] < np.deg2rad(dec_max), dc2_det_shear['dec'] > np.deg2rad(dec_min)))]
 
 
 for i in range(20,26):
     mag_threshold = i
 
-    dc2_det_thre = np.copy(dc2_det_match[dc2_det_match['mag_auto_'+fr[2]] < mag_threshold])
-    dc2_truth_thre = np.copy(dc2_truth_match[dc2_det_match['mag_auto_'+fr[2]] < mag_threshold])
+    dc2_det_thre = dc2_det_match[dc2_det_match['mag_auto_'+fr[2]] < mag_threshold]
+    dc2_truth_thre = dc2_truth_match[dc2_det_match['mag_auto_'+fr[2]] < mag_threshold]
 
     dc2_thre_shear = np.copy(dc2_truth_shear[dc2_truth_thre['ind']])
-    # dc2_thre_shear = dc2_thre_shear[np.logical_and(np.logical_and(dc2_thre_shear['ra'] < np.deg2rad(ra_max), dc2_thre_shear['ra'] > np.deg2rad(ra_min)),np.logical_and(dc2_thre_shear['dec'] < np.deg2rad(dec_max), dc2_thre_shear['dec'] > np.deg2rad(dec_min)))]
+    dc2_thre_shear = dc2_thre_shear[np.logical_and(np.logical_and(dc2_thre_shear['ra'] < np.deg2rad(ra_max), dc2_thre_shear['ra'] > np.deg2rad(ra_min)),np.logical_and(dc2_thre_shear['dec'] < np.deg2rad(dec_max), dc2_thre_shear['dec'] > np.deg2rad(dec_min)))]
 
     if i == 20:
         s1 = np.zeros(len(dc2_det_shear))
