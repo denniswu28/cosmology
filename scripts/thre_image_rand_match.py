@@ -14,7 +14,7 @@ import utilities as util
 rng = default_rng()
 
 fr = ['Y106','J129','H158','F184']
-mag_threshold = 24
+mag_threshold = 25
 dec_min = -42
 dec_max = -38
 ra_min = 51

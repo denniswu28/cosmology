@@ -26,6 +26,7 @@ dec_max = -38
 ra_min = 51
 ra_max = 56
 
+
 # Read in all objects
 dc2_truth = util.read_truth_catalog('/hpc/group/cosmology/phy-lsst/public/dc2_sim_output/truth/coadd/dc2_index_*.fits.gz')
 dc2_truth = dc2_truth[dc2_truth['x']>0] # select valid

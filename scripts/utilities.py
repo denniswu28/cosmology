@@ -1,5 +1,6 @@
 import fitsio as fio
 import csv
+import re
 import numpy as np
 import matplotlib
 matplotlib.use ('agg')
@@ -9,6 +10,24 @@ import glob
 import scipy as sp
 from scipy import spatial
 
+def extract_coordinates_regex(directory_string):
+    # Regular expression to find the pattern before '.fits.gz'
+    match = re.search(r'(\d+\.\d+_-?\d+\.\d+)\.fits\.gz$', directory_string)
+    if match:
+        return match.group(1)
+    return None
+
+def extract_unique_entries(data):
+    dtype_obj = data[0].dtype
+    unique_entries = {}
+    for obj in data:
+        if obj['x']>0 and obj['gal_star'] == 0: #and np.logical_and(np.logical_and(obj['ra'] < ra_max, obj['ra'] > ra_min),np.logical_and(obj['dec'] < dec_max, obj['dec'] > dec_min)):
+            coordinates = (obj['ra'], obj['dec'])  # Extract coordinates, assuming dictionary format
+            if coordinates not in unique_entries:
+                unique_entries[coordinates] = obj  # Store the whole entry
+        else:
+            continue
+    return np.array(list(unique_entries.values()), dtype = dtype_obj)
 
 def get_match(m,t):
     m_ori = m
@@ -25,7 +44,24 @@ def get_match(m,t):
     mask[m1] = ii[m1,0]
     mask[m2&(np.abs(dm2)<np.abs(dm1))]= ii[m2&(np.abs(dm2)<np.abs(dm1)),1]
     mask[m3&(np.abs(dm3)<np.abs(dm1))&(np.abs(dm3)<np.abs(dm2))]= ii[m3&(np.abs(dm3)<np.abs(dm1))&(np.abs(dm3)<np.abs(dm2)),2]
-    return m[mask>=0],t[mask[mask>=0].astype(int)]
+    return m[mask>=0],t[np.unique(mask[mask>=0].astype(int))]
+
+def get_match_old(m,t):
+    m_ori = m
+    t_ori = t
+    tree = spatial.cKDTree(np.c_[m['alphawin_j2000'].ravel(), m['deltawin_j2000'].ravel()])
+    dd,ii = tree.query(np.c_[t['ra'].ravel(), t['dec'].ravel()], k=3)
+    m1=dd[:,0]*60.*60.<1
+    m2=dd[:,1]*60.*60.<1
+    m3=dd[:,2]*60.*60.<1
+    dm1=(m_ori['mag_auto_F184'][ii[:,0]]-t_ori['mag_F184'])
+    dm2=(m_ori['mag_auto_F184'][ii[:,1]]-t_ori['mag_F184'])
+    dm3=(m_ori['mag_auto_F184'][ii[:,2]]-t_ori['mag_F184'])
+    mask = np.ones(len(t_ori))*-1
+    mask[m1] = ii[m1,0]
+    mask[m2&(np.abs(dm2)<np.abs(dm1))]= ii[m2&(np.abs(dm2)<np.abs(dm1)),1]
+    mask[m3&(np.abs(dm3)<np.abs(dm1))&(np.abs(dm3)<np.abs(dm2))]= ii[m3&(np.abs(dm3)<np.abs(dm1))&(np.abs(dm3)<np.abs(dm2)),2]
+    return m[np.unique(mask[mask>=0].astype(int))], t[mask>=0]
 
 def read_det_catalog(glob_query):
     start  = 0
@@ -47,9 +83,11 @@ def read_det_catalog(glob_query):
 
 
 def read_truth_catalog(glob_query):
+    dc2_coaddlist = fio.FITS('/hpc/group/cosmology/phy-lsst/public/dc2_sim_output/truth/coadd/dc2_coaddlist.fits.gz')[-1].read()
+    dc2_coaddlist_dict = {row[0]: row for row in dc2_coaddlist}
     start  = 0
     truth = None
-    for i,f in enumerate(np.sort(glob.glob('/hpc/group/cosmology/phy-lsst/public/dc2_sim_output/truth/coadd/dc2_index_*.fits.gz'))):
+    for i,f in enumerate(np.sort(glob.glob(glob_query))):
         # print(i)
         try:
             tmp = fio.FITS(f)[-1].read(columns=['ra','dec', 'mag_J129','mag_F184','mag_H158','mag_Y106', 'ind', 'gal_star','x'])
@@ -57,6 +95,39 @@ def read_truth_catalog(glob_query):
             if truth is None:
                 print(tmp.dtype)
                 truth = np.zeros(100000000,dtype=tmp.dtype)
+            # unique = extract_unique_entries(tmp)
+            # del(tmp)
+            mask = dc2_coaddlist_dict[extract_coordinates_regex(f)]
+            # print(max(tmp['ra']), min(tmp['ra']))
+            tmp = tmp[np.logical_and(np.logical_and(tmp['ra'] < mask['coadd_ra']+mask['d_ra'], tmp['ra'] > mask['coadd_ra']-mask['d_ra']),
+                                     np.logical_and(tmp['dec'] < mask['coadd_dec']+mask['d_dec'], tmp['dec'] > mask['coadd_dec']-mask['d_dec']))]
+
+
+            # print(max(unique['ra']), min(unique['ra']))
+            # unique = unique[np.logical_and(np.logical_and(unique['ra'] < mask['coadd_ra']+mask['d_ra']/2, unique['ra'] > mask['coadd_ra']-mask['d_ra']/2),
+            #                          np.logical_and(unique['dec'] < mask['coadd_dec']+mask['d_dec']/2, unique['dec'] > mask['coadd_dec']-mask['d_dec']/2))]
+            
+            for col in truth.dtype.names:
+                truth[col][start:start+len(tmp)] = tmp[col]
+            start+=len(tmp)
+        except:
+            # print('-----fail'+f)
+            pass
+    return truth
+
+def read_truth_catalog_old(glob_query):
+    start  = 0
+    truth = None
+    for i,f in enumerate(np.sort(glob.glob(glob_query))):
+        # print(i)
+        try:
+            tmp = fio.FITS(f)[-1].read(columns=['ra','dec', 'mag_J129','mag_F184','mag_H158','mag_Y106', 'ind', 'gal_star','x'])
+            # tmp = fio.FITS(f)[-1].read()
+            if truth is None:
+                print(tmp.dtype)
+                truth = np.zeros(100000000,dtype=tmp.dtype)
+
+            
             for col in truth.dtype.names:
                 truth[col][start:start+len(tmp)] = tmp[col]
             start+=len(tmp)

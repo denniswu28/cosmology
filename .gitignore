@@ -2,7 +2,12 @@ data/**
 pdf/**
 examples/**
 phy555/**
+covmat/*
 trash/**
+**/*.png
+**/*.csv
+**/*.nz
 slurm-*.out
-
-
+cosmosis_files/output/*
+cosmosis_files/data/*
+!**/*.py

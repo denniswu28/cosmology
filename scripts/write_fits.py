@@ -1,6 +1,5 @@
 from __future__ import print_function, division
-import numpy as np
-import twopoint
+import scripts.twopoint as twopoint
 import numpy as np
 import treecorr
 import utilities as util

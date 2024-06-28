@@ -7,6 +7,7 @@ cosmological_parameters--n_s  0.9384798701340555  det
 cosmological_parameters--sigma_8  0.5838318973888148  det
 prior  nan  det
 like  241.6974773883124  det
+cosmological_parameters--s8_0.500  0.7381152556446863  det
 post  266.989774364631  det
 weight  0.004538158522075662  det
 cosmological_parameters--omega_m  0.21384241996642822  truth
@@ -15,5 +16,6 @@ cosmological_parameters--h0  0.6093303804168243  truth
 cosmological_parameters--sigma_8  0.6915582212543957  truth
 prior  nan  truth
 like  242.7843785240338  truth
+cosmological_parameters--s8_0.500  0.7503906965168927  truth
 post  263.2483617630501  truth
 weight  0.0022234869349573596  truth

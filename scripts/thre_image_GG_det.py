@@ -19,6 +19,7 @@ dec_max = -38
 ra_min = 51
 ra_max = 56
 
+
 # Read in and cut truth objects
 dc2_truth = util.read_truth_catalog('/hpc/group/cosmology/phy-lsst/public/dc2_sim_output/truth/coadd/dc2_index_*.fits.gz')
 dc2_truth = dc2_truth[dc2_truth['x']>0] # select valid
@@ -31,23 +32,21 @@ dc2_det = dc2_det[dc2_det['number']>0] # select valid
 dc2_det = dc2_det[(dc2_det['flags']<4)&(dc2_det['flux_auto']/dc2_det['fluxerr_auto']>5)] # select flag=0 and flux/err ratio >5
 dc2_det = dc2_det[(dc2_det['alphawin_j2000']>ra_min)&(dc2_det['alphawin_j2000']<ra_max)&(dc2_det['deltawin_j2000']>dec_min)&(dc2_det['deltawin_j2000']<dec_max)]
 
-# Match both catalogs
-dc2_det_match, dc2_truth_match = util.get_match(dc2_det, dc2_truth)
 
 # Extract position data
-ra = dc2_det_match['alphawin_j2000']
-dec = dc2_det_match['deltawin_j2000']
+ra = dc2_det['alphawin_j2000']
+dec = dc2_det['deltawin_j2000']
 
 # Extract shear data
-s1 = np.zeros(len(dc2_det_match))
-s2 = np.zeros(len(dc2_det_match))
+s1 = np.zeros(len(dc2_det))
+s2 = np.zeros(len(dc2_det))
 
-with open('data/s1_det_match.csv') as fs1:
+with open('data/s1_det.csv') as fs1:
 	reader = csv.reader(fs1, delimiter=',')
 	for row in reader:
 		s1 = row
 
-with open('data/s2_det_match.csv') as fs2:
+with open('data/s2_det.csv') as fs2:
 	reader = csv.reader(fs2, delimiter=',')
 	for row in reader:
 		s2 = row
@@ -57,8 +56,8 @@ for i in range(20,26):
 	mag_threshold = i
 
 	# Select objects based on threshold
-	dc2_det_thre = np.copy(dc2_det_match[dc2_det_match['mag_auto_'+fr[2]] < mag_threshold])
-	dc2_truth_thre = np.copy(dc2_truth_match[dc2_det_match['mag_auto_'+fr[2]] < mag_threshold])
+	dc2_det_thre = np.copy(dc2_det[dc2_det['mag_auto_'+fr[2]] < mag_threshold])
+	dc2_truth_thre = np.copy(dc2_truth[dc2_det['mag_auto_'+fr[2]] < mag_threshold])
 
 	# Extract thresholded position data
 	ra_thre = dc2_det_thre['alphawin_j2000']
@@ -96,6 +95,9 @@ for i in range(20,26):
 	gg.write("data/gg_corr_det_all.fits")
 	gg_thre.write("data/gg_corr_det_"+ str(mag_threshold) +".fits")
 	gg_cross.write("data/gg_cross_det_"+ str(mag_threshold) +".fits")
+	# gg.write("data/gg_corr_det_mid_all.fits")
+	# gg_thre.write("data/gg_corr_det_mid_"+ str(mag_threshold) +".fits")
+	# gg_cross.write("data/gg_cross_det_mid_"+ str(mag_threshold) +".fits")
 
 
 

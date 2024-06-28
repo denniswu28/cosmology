@@ -41,11 +41,15 @@ dc2_det = dc2_det[(dc2_det['alphawin_j2000']>ra_min)&(dc2_det['alphawin_j2000']<
 dc2_det_match, dc2_truth_match = util.get_match(dc2_det, dc2_truth)
 
 # Read in shear data
-dc2_truth_shear = fio.FITS('/hpc/group/cosmology/phy-lsst/public/dc2_sim_output/truth/dc2_truth_gal.fits')[-1].read()
-dc2_truth_shear = dc2_truth_shear[np.logical_and(np.logical_and(dc2_truth_shear['ra'] < np.deg2rad(ra_max), dc2_truth_shear['ra'] > np.deg2rad(ra_min)),np.logical_and(dc2_truth_shear['dec'] < np.deg2rad(dec_max), dc2_truth_shear['dec'] > np.deg2rad(dec_min)))]
+dc2_truth_shear_limited = np.copy(dc2_truth_shear[dc2_truth_match['ind']])
 
-s1 = np.zeros(len(dc2_truth_shear))
-s2 = np.zeros(len(dc2_truth_shear))
+# Extract position data
+ra = dc2_truth_shear_limited['ra']
+dec = dc2_truth_shear_limited['dec']
+
+# Extract shear data
+s1 = np.zeros(len(dc2_truth_shear_limited))
+s2 = np.zeros(len(dc2_truth_shear_limited))
 
 with open('data/s1.csv') as fs1:
 	reader = csv.reader(fs1, delimiter=',')
@@ -58,17 +62,11 @@ with open('data/s2.csv') as fs2:
 		s2 = row
 
 for i in range(20,26):
-	# if (i-20) != rank:
-	# 	continue
-	
+
 	mag_threshold = i
 
 	# Select objects based on threshold
 	dc2_truth_thre = dc2_truth_match[dc2_truth_match['mag_'+fr[2]] < mag_threshold]
-
-	# Extract position and shear data
-	ra = dc2_truth_shear['ra']
-	dec = dc2_truth_shear['dec']
 
 	ra_thre = dc2_truth_thre['ra']
 	dec_thre = dc2_truth_thre['dec']
