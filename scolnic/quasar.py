@@ -75,8 +75,9 @@ def main():
 
     print("finished remove")
 
-    stars_colors = calculate_colors(clean_stars)
+    clean_stars_colors = calculate_colors(clean_stars)
     quasars_colors = calculate_colors(quasars)
+    stars_colors = calculate_colors(stars[(stars['z'] > 1) & (stars['z'] < 2.2)])
 
     print("finished colors")
     
@@ -88,7 +89,7 @@ def main():
     print("finished leave one out")
     
     # Fit KDE models with the best bandwidths found
-    kde_star = fit_kde(stars_colors, best_bandwidth_star)
+    kde_star = fit_kde(clean_stars_colors, best_bandwidth_star)
     kde_quasar = fit_kde(quasars_colors, best_bandwidth_quasar)
 
     print("finished fitting")

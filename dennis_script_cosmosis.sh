@@ -1,10 +1,10 @@
 #!/bin/bash -l                     
 #SBATCH -N 2
 #SBATCH -n 100
-#SBATCH -t 12:00:00
+#SBATCH -t 48:00:00
 #SBATCH --account=cosmology
-#SBATCH --error=err/cosmosis.err 
-#SBATCH --mem=100G
+#SBATCH --error=err/cosmosis_0.err 
+#SBATCH --mem=200G
 #SBATCH -p cosmology
 #SBATCH --mail-type=all
 #SBATCH --mail-user=tianrui.wu@duke.edu
@@ -15,7 +15,7 @@ mamba activate /hpc/group/cosmology/cosmosis_env
 source cosmosis-configure
 
 # #OpenMP settings:
-# export OMP_NUM_THREADS=1
+export OMP_NUM_THREADS=1
 # #export OMP_PLACES=threads
 # #export OMP_PROC_BIND=spread
 # export I_MPI_SPIN_COUNT=1
@@ -24,9 +24,13 @@ source cosmosis-configure
 # export SLURM_WHOLE=1
 
 mpirun -n 100 cosmosis --mpi /hpc/group/cosmology/denniswu/cosmosis_files/script/params_real.ini
+mpirun -n 100 cosmosis --mpi /hpc/group/cosmology/denniswu/cosmosis_files/script/params_real_2.ini
+mpirun -n 100 cosmosis --mpi /hpc/group/cosmology/denniswu/cosmosis_files/script/params_real_3.ini
 
 # cosmosis /hpc/group/cosmology/denniswu/cosmosis_files/script/params_pseudo.ini
-# cosmosis-postprocess denniswu/cosmosis_files/output/truth_truth_wl/output.txt -o denniswu/cosmosis_files/output/truth_truth_real/plot -p truth_truth --derive denniswu/cosmosis_files/script/derived.py
-# cosmosis-postprocess denniswu/cosmosis_files/output/rubin_rubin_wl/output.txt -o denniswu/cosmosis_files/output/rubin_rubin_real/plot -p rubin_rubin --derive denniswu/cosmosis_files/script/derived.py
-# cosmosis-postprocess denniswu/cosmosis_files/output/truth_truth_wl/output.txt denniswu/cosmosis_files/output/rubin_rubin_wl/output.txt -o denniswu/cosmosis_files/output/wl/plot -p cosmic_shear --legend="truth|rubin"
+# cosmosis-postprocess denniswu/cosmosis_files/output/truth_truth_3x2pt/output.txt -o denniswu/cosmosis_files/output/truth_truth_3x2pt/plot -p truth_truth --derive denniswu/cosmosis_files/script/derived.py
+# cosmosis-postprocess denniswu/cosmosis_files/output/roman_roman_gw/output.txt -o denniswu/cosmosis_files/output/roman_roman_gw/plot -p roman_roman --derive denniswu/cosmosis_files/script/derived.py
+# cosmosis-postprocess denniswu/cosmosis_files/output/truth_truth_wl/output.txt denniswu/cosmosis_files/output/rubin_rubin_wl/output.txt denniswu/cosmosis_files/output/roman_roman_wl/output.txt -o denniswu/cosmosis_files/output/wl_3overlay/plot -p cosmic_shear --legend="truth|rubin|roman"
+# cosmosis-postprocess denniswu/cosmosis_files/output/roman_roman_3x2pt/output.txt -o denniswu/cosmosis_files/output/roman_roman_3x2pt/plot -p roman_roman --derive denniswu/cosmosis_files/script/derived.py
+
 # cosmosis-postprocess --help

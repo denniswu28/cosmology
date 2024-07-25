@@ -17,7 +17,7 @@ NOFZ_NAMES = ['nz_source', 'nz_lens']
 COV_NAME = 'COVMAT'
 fr = ['Y106','J129','H158','F184']
 
-obj_type = 'roman'
+obj_type = 'truth'
 cov_type = 'roman'
 nz_type = 'roman'
 lens_type = 'len_'+nz_type
@@ -27,6 +27,7 @@ vector_dir_path = '/hpc/group/cosmology/denniswu/cosmosis_files/output/'+obj_typ
 cov_file_path = '/hpc/group/cosmology/denniswu/covmat/'+cov_type+'/cov_'+cov_type
 full_file_path = '/hpc/group/cosmology/denniswu/data/'+obj_type+'_'+cov_type+'.fits'
 full_cov_file_path = '/hpc/group/cosmology/denniswu/cosmosis_files/data/'+obj_type+'_'+cov_type+'.fits'
+# full_cov_file_path = '/hpc/group/cosmology/denniswu/cosmosis_files/data/'+obj_type+'_'+cov_type+'_fake.fits'
 
 bins_tomo = [1,2,3,4,5]
 nbins_tomo = len(bins_tomo)
@@ -187,27 +188,28 @@ length = nbins
 gammat_size = {'truth': 19, 'rubin': 24, 'roman': 24}
 gammat_bin1 = {'truth': [1,1,1,1,1,2,2,2,2,2,3,3,3,3,4,4,4,5,5], 'rubin': [1,1,1,1,1,2,2,2,2,2,3,3,3,3,3,4,4,4,4,4,5,5,5,5], 'roman': [1,1,1,1,1,2,2,2,2,2,3,3,3,3,3,4,4,4,4,4,5,5,5,5]}
 gammat_bin2 = {'truth': [1,2,3,4,5,1,2,3,4,5,2,3,4,5,3,4,5,4,5], 'rubin': [1,2,3,4,5,1,2,3,4,5,1,2,3,4,5,1,2,3,4,5,2,3,4,5], 'roman': [1,2,3,4,5,1,2,3,4,5,1,2,3,4,5,1,2,3,4,5,2,3,4,5]}
+gammat_size_min = min(gammat_size[cov_type], gammat_size[obj_type])
 
-exts[2].angular_bin   = np.tile(np.arange(length),gammat_size[cov_type])
-exts[2].angle_min     = np.tile(left_edges, gammat_size[cov_type])
-exts[2].angle_max     = np.tile(right_edges, gammat_size[cov_type])                       
-exts[2].angle         = gammat_data['2pt_angle'][:gammat_size[cov_type]]
-exts[2].bin1          = gammat_data['2pt_bin1'][:gammat_size[cov_type]]
-exts[2].bin2          = gammat_data['2pt_bin2'][:gammat_size[cov_type]]
-exts[2].value         = gammat_data['2pt_theory'][:gammat_size[cov_type]]
+exts[2].angular_bin   = np.tile(np.arange(length), gammat_size_min)
+exts[2].angle_min     = np.tile(left_edges, gammat_size_min)
+exts[2].angle_max     = np.tile(right_edges, gammat_size_min)                       
+exts[2].angle         = gammat_data['2pt_angle'][:gammat_size_min*nbins]
+exts[2].bin1          = gammat_data['2pt_bin1'][:gammat_size_min*nbins]
+exts[2].bin2          = gammat_data['2pt_bin2'][:gammat_size_min*nbins]
+exts[2].value         = gammat_data['2pt_theory'][:gammat_size_min*nbins]
 # exts[2].npairs        = np.tile(ng_data.npairs, 19)
 # exts[2].weight        = np.tile(ng_data.weight, 19)
 # exts[2].random_npairs = np.tile(ng_rand_data.npairs, 19)
 # exts[2].random_weight = np.tile(ng_rand_data.weight, 19)
 
 
-exts[3].angular_bin   = np.tile(np.arange(length),gammat_size[cov_type])
-exts[3].angle_min     = np.tile(left_edges, gammat_size[cov_type])
-exts[3].angle_max     = np.tile(right_edges, gammat_size[cov_type])                       
-exts[3].angle         = gammat_data['2pt_angle'][:gammat_size[cov_type]]
-exts[3].bin1          = gammat_data['2pt_bin1'][:gammat_size[cov_type]]
-exts[3].bin2          = gammat_data['2pt_bin2'][:gammat_size[cov_type]]
-exts[3].value         = gammat_data['2pt_theory'][:gammat_size[cov_type]]
+exts[3].angular_bin   = np.tile(np.arange(length), gammat_size_min)
+exts[3].angle_min     = np.tile(left_edges, gammat_size_min)
+exts[3].angle_max     = np.tile(right_edges, gammat_size_min)                       
+exts[3].angle         = gammat_data['2pt_angle'][:gammat_size_min*nbins]
+exts[3].bin1          = gammat_data['2pt_bin1'][:gammat_size_min*nbins]
+exts[3].bin2          = gammat_data['2pt_bin2'][:gammat_size_min*nbins]
+exts[3].value         = gammat_data['2pt_theory'][:gammat_size_min*nbins]
 # exts[3].npairs        = np.tile(ng_data.npairs, 19)
 # exts[3].weight        = np.tile(ng_data.weight, 19)
 # exts[3].random_npairs = np.tile(ng_rand_data.npairs, 19)
@@ -260,8 +262,22 @@ if covmat is not None:
     names = [s.name for s in fits.spectra]
     print(names)
 
+# save Gaussian cov and adapt to vectors
+if obj_type == 'truth':
+    # 10, 15, 16, 20, 21
+    remove_indices = np.concatenate([np.arange(800, 820), np.arange(900, 940), np.arange(1000, 1040)])
+    # All indices
+    all_indices = np.arange(1180)
+    # Use np.isin to find indices that are not in 'remove_indices'
+    keep_indices = np.isin(all_indices, remove_indices, invert=True)
+
+    # Use the indices to keep to filter both rows and columns
+    covmat_G = covmat[0][np.ix_(keep_indices, keep_indices)]
+
+
+
 # Writes the covariance info into a covariance object and saves to 2point fits file.
-fits.covmat_info=twopoint.CovarianceMatrixInfo('COVMAT', TWO_POINT_NAMES_MOD, lengths, covmat[0])
+fits.covmat_info=twopoint.CovarianceMatrixInfo('COVMAT', TWO_POINT_NAMES_MOD, lengths, covmat_G)
 fits.to_fits(full_cov_file_path, clobber=True)
 
 fitsfile = fitsio.open(full_cov_file_path)

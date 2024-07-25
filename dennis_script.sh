@@ -4,7 +4,7 @@
 #SBATCH -t 48:00:00
 #SBATCH --account=cosmology
 #SBATCH --error=err/shear_calc.err 
-#SBATCH --mem=150G
+#SBATCH --mem=100G
 #SBATCH -p cosmology
 #SBATCH --mail-type=all
 #SBATCH --mail-user=tianrui.wu@duke.edu
@@ -36,12 +36,12 @@ export PYTHONPATH=${PYTHONPATH}:/hpc/group/cosmology/repos/2point/
 # python /hpc/group/cosmology/denniswu/scripts/thre_image_rand_match.py
 # python /hpc/group/cosmology/denniswu/scripts/shear_calc.py
 # python /hpc/group/cosmology/denniswu/scripts/write_fits.py
-python /hpc/group/cosmology/denniswu/scripts/test.py
+# python /hpc/group/cosmology/denniswu/scripts/test.py
 # python /hpc/group/cosmology/denniswu/scolnic/quasar.py
 # python /hpc/group/cosmology/denniswu/scripts/shear_calc_match.py
 # python /hpc/group/cosmology/denniswu/scripts/match_plot.py
 # python /hpc/group/cosmology/denniswu/scripts/write_fit_tomo_pseudo.py
-# python /hpc/group/cosmology/denniswu/scripts/write_fit_tomo.py
+python /hpc/group/cosmology/denniswu/scripts/write_fit_tomo.py
 
 # cd /hpc/group/cosmology/repos/CosmoCov/covs
 # make covs

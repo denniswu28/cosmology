@@ -28,7 +28,10 @@ import numpy as np
 from scipy import stats
 from sklearn.model_selection import LeaveOneOut
 from sklearn.metrics import accuracy_score
+import matplotlib
 import matplotlib.pyplot as plt
+matplotlib.use ('agg')
+
 
 def load_data(stars_path, gals_path):
     stars = pd.read_csv(stars_path)
@@ -42,15 +45,15 @@ gals_path = '/hpc/group/cosmology/denniswu/scolnic/gals.csv'
 stars, gals = load_data(stars_path, gals_path)
 
 
-print("finished loading")
+print("max z", np.max(stars['z']))
 
-plt.hist(stars['z'])
-plt.hist(gals['z'])
+plt.hist(stars['z'], label = r'stars', density = True, bins = 50)
+plt.hist(gals['z'], label = r'gals', density = True, bins = 50)
 plt.xlabel(r'$z$')
 plt.ylabel(r'$dN/dz$')
 plt.legend(loc = 'upper right')
 plt.title("Redshift dist of galaxies samples and QSO samples")
-plt.savefig('scolnic/gal_star_hist.pdf')
+plt.savefig('/hpc/group/cosmology/denniswu/scolnic/gal_star_hist.pdf')
 plt.clf()
 
 # obj_type = 'roman'
