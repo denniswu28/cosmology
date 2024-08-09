@@ -11,3 +11,4 @@ slurm-*.out
 cosmosis_files/output/*
 cosmosis_files/data/*
 !**/*.py
+**/*.err
